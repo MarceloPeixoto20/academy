@@ -11,6 +11,10 @@ VALUES
 ('alunos.excluir','alunos','excluir','Excluir alunos',false),
 ('alunos.alterar_status','alunos','alterar_status','Alterar status do aluno',false),
 ('alunos.ver_financeiro','alunos','ver_financeiro','Ver financeiro do aluno',true),
+('alunos.medidas.visualizar','alunos','medidas.visualizar','Visualizar medidas do aluno',false),
+('alunos.medidas.criar','alunos','medidas.criar','Criar medidas do aluno',false),
+('alunos.medidas.editar','alunos','medidas.editar','Editar medidas do aluno',false),
+('alunos.medidas.excluir','alunos','medidas.excluir','Excluir medidas do aluno',false),
 
 ('treinadores.visualizar','treinadores','visualizar','Visualizar treinadores',false),
 ('treinadores.criar','treinadores','criar','Criar treinadores',false),
@@ -21,6 +25,11 @@ VALUES
 ('treinos.criar','treinos','criar','Criar treinos',false),
 ('treinos.editar','treinos','editar','Editar treinos',false),
 ('treinos.excluir','treinos','excluir','Excluir treinos',false),
+
+('exercicios.visualizar','exercicios','visualizar','Visualizar exercícios',false),
+('exercicios.criar','exercicios','criar','Criar exercícios',false),
+('exercicios.editar','exercicios','editar','Editar exercícios',false),
+('exercicios.excluir','exercicios','excluir','Excluir exercícios',false),
 
 ('financeiro.visualizar','financeiro','visualizar','Visualizar financeiro',false),
 ('financeiro.gerar_cobranca','financeiro','gerar_cobranca','Gerar cobranças',false),
