@@ -98,6 +98,12 @@ export default function Treinos() {
     try {
       setError("");
       setSuccess("");
+
+      if (!form.treinador_id) {
+        setError("Escolha um treinador cadastrado para o treino.");
+        return;
+      }
+
       await api("/treinos/", {
         method: "POST",
         body: JSON.stringify({ ...form, exercicios: (form.exercicios || []).filter((item) => item.exercicio_id) }),
@@ -136,7 +142,7 @@ export default function Treinos() {
               <Input label="Nome do treino" value={form.nome} onChange={(v) => setField("nome", v)} required />
               <Input label="Objetivo" value={form.objetivo} onChange={(v) => setField("objetivo", v)} />
               <Select label="Nível" value={form.nivel} onChange={(v) => setField("nivel", v)} options={[{ value: "INICIANTE", label: "Iniciante" }, { value: "INTERMEDIARIO", label: "Intermediário" }, { value: "AVANCADO", label: "Avançado" }]} />
-              <SearchableSelect label="Treinador padrão" value={form.treinador_id} onChange={(v) => setField("treinador_id", v)} options={treinadorOptions} placeholder="Digite nome, documento ou CREF" className="span-2" />
+              <SearchableSelect label="Treinador padrão" value={form.treinador_id} onChange={(v) => setField("treinador_id", v)} options={treinadorOptions} placeholder="Digite nome, documento ou CREF" className="span-2" required />
               <Select label="Status" value={form.status} onChange={(v) => setField("status", v)} options={[{ value: "ATIVO", label: "ATIVO" }, { value: "INATIVO", label: "INATIVO" }, { value: "FINALIZADO", label: "FINALIZADO" }]} />
             </div>
             <label className="full-label"><span>Observações</span><textarea value={form.observacoes || ""} onChange={(e) => setField("observacoes", e.target.value)} /></label>

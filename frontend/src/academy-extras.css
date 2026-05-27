@@ -7,6 +7,27 @@
   width: 100%;
 }
 
+.searchable-select input[aria-invalid="true"] {
+  border-color: #dc2626;
+}
+
+.searchable-select-required {
+  position: absolute;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0;
+  pointer-events: none;
+  left: 12px;
+  bottom: 12px;
+}
+
+.field-error {
+  display: block;
+  color: #dc2626;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
 .searchable-select-menu {
   position: absolute;
   z-index: 20;
