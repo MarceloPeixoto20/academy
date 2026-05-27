@@ -238,7 +238,6 @@ class Treino(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     empresa_id = db.Column(UUID(as_uuid=True), db.ForeignKey("empresas.id"), nullable=False)
     filial_id = db.Column(UUID(as_uuid=True), db.ForeignKey("filiais.id"), nullable=False)
-    aluno_id = db.Column(UUID(as_uuid=True), db.ForeignKey("alunos.id"), nullable=False)
     treinador_id = db.Column(UUID(as_uuid=True), db.ForeignKey("treinadores.id"))
     nome = db.Column(db.Text, nullable=False)
     objetivo = db.Column(db.Text)
@@ -264,6 +263,22 @@ class TreinoExercicio(db.Model):
     descanso_segundos = db.Column(db.Integer)
     observacoes = db.Column(db.Text)
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
+
+class AlunoTreino(db.Model):
+    __tablename__ = "aluno_treinos"
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    empresa_id = db.Column(UUID(as_uuid=True), db.ForeignKey("empresas.id"), nullable=False)
+    filial_id = db.Column(UUID(as_uuid=True), db.ForeignKey("filiais.id"), nullable=False)
+    aluno_id = db.Column(UUID(as_uuid=True), db.ForeignKey("alunos.id"), nullable=False)
+    treino_id = db.Column(UUID(as_uuid=True), db.ForeignKey("treinos.id"), nullable=False)
+    treinador_id = db.Column(UUID(as_uuid=True), db.ForeignKey("treinadores.id"))
+    dia_semana = db.Column(db.Text, nullable=False)
+    status = db.Column(db.Text, nullable=False, default="ATIVO")
+    data_inicio = db.Column(db.Date, nullable=False, default=date.today)
+    data_fim = db.Column(db.Date)
+    observacoes = db.Column(db.Text)
+    created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
 
 class ConfiguracaoSistema(db.Model):
     __tablename__ = "configuracoes_sistema"
