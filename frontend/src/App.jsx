@@ -18,11 +18,14 @@ const crudConfigs = {
     title: "Filiais",
     endpoint: "/filiais/",
     createPermission: "filiais.criar",
+    editPermission: "filiais.editar",
     initial: { status: "ATIVA" },
     fields: [
       { name: "nome", label: "Nome" }, { name: "cnpj", label: "CNPJ" },
       { name: "telefone", label: "Telefone" }, { name: "email", label: "Email" },
-      { name: "cidade", label: "Cidade" }, { name: "uf", label: "UF" },
+      { name: "cep", label: "CEP" }, { name: "endereco", label: "Endereço" },
+      { name: "numero", label: "Número" }, { name: "complemento", label: "Complemento" },
+      { name: "bairro", label: "Bairro" }, { name: "cidade", label: "Cidade" }, { name: "uf", label: "UF" },
       { name: "status", label: "Status", type: "select", options: [{value:"ATIVA",label:"ATIVA"},{value:"INATIVA",label:"INATIVA"}] }
     ],
     columns: ["nome","cidade","uf","status"]
@@ -31,6 +34,7 @@ const crudConfigs = {
     title: "Planos",
     endpoint: "/planos/",
     createPermission: "planos.criar",
+    editPermission: "planos.editar",
     initial: { status: "ATIVO", duracao_meses: 1, multa_atraso_ativa: false },
     fields: [
       { name: "nome", label: "Nome" }, { name: "descricao", label: "Descrição" },
@@ -47,6 +51,7 @@ const crudConfigs = {
     title: "Exercícios",
     endpoint: "/exercicios/",
     createPermission: "exercicios.criar",
+    editPermission: "exercicios.editar",
     initial: { status: "ATIVO" },
     fields: [
       { name: "nome", label: "Nome" }, { name: "descricao", label: "Descrição", type: "textarea" },
@@ -59,6 +64,8 @@ const crudConfigs = {
     title: "Configurações",
     endpoint: "/configuracoes/",
     createPermission: "configuracoes.editar",
+    editPermission: "configuracoes.editar",
+    upsertOnly: true,
     fields: [
       { name: "chave", label: "Chave" }, { name: "valor", label: "Valor" },
       { name: "tipo", label: "Tipo", type: "select", options: [{value:"texto",label:"texto"},{value:"numero",label:"numero"},{value:"booleano",label:"booleano"},{value:"json",label:"json"},{value:"data",label:"data"}] },
