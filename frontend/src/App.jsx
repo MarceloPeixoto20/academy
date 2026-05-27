@@ -10,6 +10,8 @@ import Usuarios from "./pages/Usuarios";
 import Grupos from "./pages/Grupos";
 import Logs from "./pages/Logs";
 import CrudPage from "./pages/CrudPage";
+import Treinadores from "./pages/Treinadores";
+import Treinos from "./pages/Treinos";
 
 const crudConfigs = {
   filiais: {
@@ -41,19 +43,6 @@ const crudConfigs = {
     ],
     columns: ["nome","valor_mensal","duracao_meses","status"]
   },
-  treinadores: {
-    title: "Treinadores",
-    endpoint: "/treinadores/",
-    createPermission: "treinadores.criar",
-    initial: { status: "ATIVO" },
-    fields: [
-      { name: "nome", label: "Nome" }, { name: "cpf", label: "CPF" },
-      { name: "telefone", label: "Telefone" }, { name: "email", label: "Email" },
-      { name: "cref", label: "CREF" }, { name: "especialidade", label: "Especialidade" },
-      { name: "status", label: "Status", type: "select", options: [{value:"ATIVO",label:"ATIVO"},{value:"INATIVO",label:"INATIVO"}] }
-    ],
-    columns: ["nome","cpf","telefone","email","status"]
-  },
   exercicios: {
     title: "Exercícios",
     endpoint: "/exercicios/",
@@ -65,20 +54,6 @@ const crudConfigs = {
       { name: "status", label: "Status", type: "select", options: [{value:"ATIVO",label:"ATIVO"},{value:"INATIVO",label:"INATIVO"}] }
     ],
     columns: ["nome","equipamento","status"]
-  },
-  treinos: {
-    title: "Treinos",
-    endpoint: "/treinos/",
-    createPermission: "treinos.criar",
-    initial: { status: "ATIVO", nivel: "INICIANTE" },
-    fields: [
-      { name: "filial_id", label: "ID Filial" }, { name: "aluno_id", label: "ID Aluno" },
-      { name: "treinador_id", label: "ID Treinador" }, { name: "nome", label: "Nome" },
-      { name: "objetivo", label: "Objetivo" },
-      { name: "nivel", label: "Nível", type: "select", options: [{value:"INICIANTE",label:"INICIANTE"},{value:"INTERMEDIARIO",label:"INTERMEDIARIO"},{value:"AVANCADO",label:"AVANCADO"}] },
-      { name: "status", label: "Status", type: "select", options: [{value:"ATIVO",label:"ATIVO"},{value:"INATIVO",label:"INATIVO"},{value:"FINALIZADO",label:"FINALIZADO"}] }
-    ],
-    columns: ["nome","objetivo","nivel","status"]
   },
   configuracoes: {
     title: "Configurações",
@@ -106,6 +81,8 @@ export default function App() {
         <Route path="usuarios" element={<Usuarios />} />
         <Route path="grupos" element={<Grupos />} />
         <Route path="logs" element={<Logs />} />
+        <Route path="treinadores" element={<Treinadores />} />
+        <Route path="treinos" element={<Treinos />} />
         {Object.entries(crudConfigs).map(([path, config]) => (
           <Route key={path} path={path} element={<CrudPage config={config} />} />
         ))}
