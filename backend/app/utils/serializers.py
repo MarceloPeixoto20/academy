@@ -1,15 +1,17 @@
-from datetime import date, datetime
+from datetime import date, datetime, time
 from decimal import Decimal
 from uuid import UUID
 
+
 def to_json_value(value):
-    if isinstance(value, (datetime, date)):
+    if isinstance(value, (datetime, date, time)):
         return value.isoformat()
     if isinstance(value, Decimal):
         return float(value)
     if isinstance(value, UUID):
         return str(value)
     return value
+
 
 def model_to_dict(model, exclude=None):
     exclude = set(exclude or [])
