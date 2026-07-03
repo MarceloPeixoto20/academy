@@ -55,7 +55,7 @@ def create_app():
     app.register_blueprint(logs_bp, url_prefix="/api/logs")
     app.register_blueprint(operacional_bp, url_prefix="/api/operacional")
     app.register_blueprint(academy_ext_bp, url_prefix="/api/academy")
-    app.register_blueprint(referrals_bp, url_prefix="/api/referrals")
+    app.register_blueprint(referrals_bp, url_prefix="/api/academy/public/referrals")
 
     @app.get("/api/health")
     def health():
