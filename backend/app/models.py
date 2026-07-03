@@ -153,7 +153,6 @@ class Treinador(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
     updated_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
 
-
 class TreinadorFilial(db.Model):
     __tablename__ = "treinador_filiais"
     treinador_id = db.Column(UUID(as_uuid=True), db.ForeignKey("treinadores.id"), primary_key=True)
@@ -182,6 +181,8 @@ class Cobranca(db.Model):
     filial_id = db.Column(UUID(as_uuid=True), db.ForeignKey("filiais.id"), nullable=False)
     aluno_id = db.Column(UUID(as_uuid=True), db.ForeignKey("alunos.id"), nullable=False)
     aluno_plano_id = db.Column(UUID(as_uuid=True), db.ForeignKey("aluno_planos.id"))
+    lote_id = db.Column(UUID(as_uuid=True), db.ForeignKey("cobranca_lotes.id"))
+    competencia = db.Column(db.Date)
     valor_original = db.Column(db.Numeric(12, 2), nullable=False)
     valor_desconto = db.Column(db.Numeric(12, 2), nullable=False, default=0)
     valor_multa = db.Column(db.Numeric(12, 2), nullable=False, default=0)
@@ -304,7 +305,6 @@ class AuditLog(db.Model):
     ip = db.Column(db.Text)
     user_agent = db.Column(db.Text)
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
-
 
 class AlunoMedida(db.Model):
     __tablename__ = "aluno_medidas"
