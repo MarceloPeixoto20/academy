@@ -1,108 +1,47 @@
-.searchable-select {
-  position: relative;
-  display: block;
-}
+.searchable-select { position: relative; display: block; }
+.searchable-select input { width: 100%; }
+.searchable-select input[aria-invalid="true"] { border-color: #dc2626; }
+.searchable-select-required { position: absolute; width: 1px !important; height: 1px !important; opacity: 0; pointer-events: none; left: 12px; bottom: 12px; }
+.field-error { display: block; color: #dc2626; margin-top: 6px; font-size: 12px; }
+.searchable-select-menu { position: absolute; z-index: 20; top: calc(100% + 6px); left: 0; right: 0; background: white; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16); padding: 6px; max-height: 280px; overflow: auto; }
+.searchable-select-option { width: 100%; background: white; color: #111827; text-align: left; border-radius: 10px; padding: 10px; }
+.searchable-select-option:hover { background: #f3f4f6; }
+.searchable-select-option strong, .searchable-select-option small { display: block; }
+.searchable-select-option small { color: #6b7280; margin-top: 2px; }
+.checkbox-group { margin: 16px 0; }
+.checkbox-group > strong { display: block; margin-bottom: 10px; }
+.checkbox-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.checkbox-grid .check-row { margin: 0; }
+.exercise-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 14px; }
+.exercise-row { border: 1px solid #e5e7eb; background: #f9fafb; border-radius: 16px; padding: 14px; }
+.exercise-row .small-button { margin-top: 12px; }
+.table-card { overflow-x: auto; }
 
-.searchable-select input {
-  width: 100%;
-}
+.brand-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 18px; }
+.sidebar-toggle { padding: 6px 10px; border-radius: 10px; background: #1f2937; color: white; }
+.sidebar-collapsed .sidebar { width: 78px; padding: 18px 12px; }
+.sidebar-collapsed .main { padding-left: 24px; }
+.sidebar-group { margin-bottom: 10px; }
+.sidebar-group-title { width: 100%; display: flex; justify-content: space-between; align-items: center; background: transparent; color: #9ca3af; padding: 8px 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+.sidebar-group-title:hover { background: #1f2937; color: white; }
 
-.searchable-select input[aria-invalid="true"] {
-  border-color: #dc2626;
-}
+.schedule-grid { display: grid; grid-template-columns: repeat(7, minmax(180px, 1fr)); gap: 12px; margin-top: 18px; overflow-x: auto; }
+.schedule-day { min-width: 180px; background: white; border-radius: 16px; border: 1px solid #e5e7eb; padding: 12px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05); }
+.schedule-day h3 { margin: 0 0 10px; font-size: 14px; }
+.schedule-card { border: 1px solid #e5e7eb; background: #f9fafb; border-radius: 12px; padding: 10px; margin-bottom: 8px; }
+.schedule-card strong, .schedule-card span, .schedule-card small { display: block; }
+.schedule-card small { color: #6b7280; margin-top: 4px; }
 
-.searchable-select-required {
-  position: absolute;
-  width: 1px !important;
-  height: 1px !important;
-  opacity: 0;
-  pointer-events: none;
-  left: 12px;
-  bottom: 12px;
-}
+.kanban-board { display: grid; grid-template-columns: repeat(6, minmax(220px, 1fr)); gap: 12px; margin: 18px 0; overflow-x: auto; }
+.kanban-column { min-width: 220px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 12px; }
+.kanban-column h3 { margin: 0 0 12px; display: flex; justify-content: space-between; align-items: center; }
+.kanban-card { background: white; border: 1px solid #e5e7eb; border-radius: 14px; padding: 12px; margin-bottom: 10px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04); }
+.kanban-card strong, .kanban-card span, .kanban-card small { display: block; margin-bottom: 6px; }
+.kanban-card small { color: #6b7280; }
+.kanban-card select { width: 100%; margin-top: 8px; }
+.crm-cards { margin-bottom: 18px; }
 
-.field-error {
-  display: block;
-  color: #dc2626;
-  margin-top: 6px;
-  font-size: 12px;
-}
-
-.searchable-select-menu {
-  position: absolute;
-  z-index: 20;
-  top: calc(100% + 6px);
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
-  padding: 6px;
-  max-height: 280px;
-  overflow: auto;
-}
-
-.searchable-select-option {
-  width: 100%;
-  background: white;
-  color: #111827;
-  text-align: left;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.searchable-select-option:hover {
-  background: #f3f4f6;
-}
-
-.searchable-select-option strong,
-.searchable-select-option small {
-  display: block;
-}
-
-.searchable-select-option small {
-  color: #6b7280;
-  margin-top: 2px;
-}
-
-.checkbox-group {
-  margin: 16px 0;
-}
-
-.checkbox-group > strong {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 10px;
-}
-
-.checkbox-grid .check-row {
-  margin: 0;
-}
-
-.exercise-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 14px;
-}
-
-.exercise-row {
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
-  border-radius: 16px;
-  padding: 14px;
-}
-
-.exercise-row .small-button {
-  margin-top: 12px;
-}
-
-.table-card {
-  overflow-x: auto;
+@media (max-width: 900px) {
+  .schedule-grid, .kanban-board { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
+  .sidebar-collapsed .sidebar { display: none; }
 }
