@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS cobranca_lotes (
   cancelado_at TIMESTAMPTZ
 );
 
+ALTER TABLE cobrancas ADD COLUMN IF NOT EXISTS competencia DATE;
 ALTER TABLE cobrancas ADD COLUMN IF NOT EXISTS lote_id UUID REFERENCES cobranca_lotes(id) ON DELETE SET NULL;
 
 INSERT INTO permissoes (codigo, modulo, acao, descricao, is_visual)
@@ -83,5 +84,6 @@ ON CONFLICT (empresa_id, codigo) DO NOTHING;
 CREATE INDEX IF NOT EXISTS idx_crm_etapas_empresa_ordem ON crm_etapas(empresa_id, ordem);
 CREATE INDEX IF NOT EXISTS idx_indicacao_campanhas_empresa_slug ON indicacao_campanhas(empresa_id, slug);
 CREATE INDEX IF NOT EXISTS idx_cobranca_lotes_empresa_status ON cobranca_lotes(empresa_id, status);
+CREATE INDEX IF NOT EXISTS idx_cobrancas_lote_id ON cobrancas(lote_id);
 
 COMMIT;
