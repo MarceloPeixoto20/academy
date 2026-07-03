@@ -98,6 +98,10 @@ def _parse_date(value):
     return datetime.strptime(value[:10], "%Y-%m-%d").date()
 
 
+def _as_string_list(values):
+    return [str(value) for value in (values or [])]
+
+
 def _get_config(chave):
     item = ConfiguracaoSistema.query.filter_by(empresa_id=g.current_user.empresa_id, chave=chave).first()
     return item.valor if item else CONFIG_DEFAULTS.get(chave, "")
@@ -305,8 +309,19 @@ def preview_lote_cobrancas():
     ano = int(data.get("ano") or hoje.year)
     mes = int(data.get("mes") or hoje.month)
     filial_ids = data.get("filial_ids") or get_user_filial_ids(g.current_user)
+    filial_ids = _as_string_list(filial_ids)
     itens, total = _preview_cobrancas(ano, mes, filial_ids)
-    lote = CobrancaLote(empresa_id=g.current_user.empresa_id, usuario_id=g.current_user.id, ano=ano, mes=mes, status="PREVIA", quantidade_prevista=len([i for i in itens if not i["existente"]]), valor_total_previsto=total, filtros={"filial_ids": filial_ids}, preview=itens)
+    lote = CobrancaLote(
+        empresa_id=g.current_user.empresa_id,
+        usuario_id=g.current_user.id,
+        ano=ano,
+        mes=mes,
+        status="PREVIA",
+        quantidade_prevista=len([i for i in itens if not i["existente"]]),
+        valor_total_previsto=total,
+        filtros={"filial_ids": filial_ids},
+        preview=itens,
+    )
     db.session.add(lote)
     db.session.commit()
     return jsonify(model_to_dict(lote))
