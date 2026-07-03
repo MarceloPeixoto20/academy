@@ -35,6 +35,7 @@ def create_app():
     from .routes.exercicios import exercicios_bp
     from .routes.configuracoes import configuracoes_bp
     from .routes.logs import logs_bp
+    from .routes.operacional import operacional_bp
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(dashboard_bp, url_prefix="/api/dashboard")
@@ -50,6 +51,7 @@ def create_app():
     app.register_blueprint(exercicios_bp, url_prefix="/api/exercicios")
     app.register_blueprint(configuracoes_bp, url_prefix="/api/configuracoes")
     app.register_blueprint(logs_bp, url_prefix="/api/logs")
+    app.register_blueprint(operacional_bp, url_prefix="/api/operacional")
 
     @app.get("/api/health")
     def health():
