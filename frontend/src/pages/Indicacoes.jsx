@@ -22,7 +22,7 @@ export default function Indicacoes() {
     try {
       setError("");
       const [indicacoesResp, campanhasResp, filiaisResp, alunosResp, colaboradoresResp] = await Promise.all([
-        api("/operacional/indicacoes"), api("/academy/indicacoes/campanhas"), api("/filiais/"), api("/alunos/"), api("/operacional/colaboradores?status=ATIVO"),
+        api("/academy/public/referrals/indicacoes"), api("/academy/indicacoes/campanhas"), api("/filiais/"), api("/alunos/"), api("/operacional/colaboradores?status=ATIVO"),
       ]);
       setIndicacoes(indicacoesResp); setCampanhas(campanhasResp); setFiliais(filiaisResp); setAlunos(alunosResp); setColaboradores(colaboradoresResp);
     } catch (err) { setError(err.message); }
@@ -57,7 +57,7 @@ export default function Indicacoes() {
       <form className="student-form" onSubmit={gerarLink}><SectionCard title="Gerar link de indicação"><div className="student-grid two"><Select label="Campanha" value={linkForm.campanha_id} onChange={(v) => setLinkField("campanha_id", v)} options={campanhas.map((c) => ({ value: c.id, label: c.nome }))} /><Select label="Indicador" value={linkForm.indicador_tipo} onChange={(v) => setLinkField("indicador_tipo", v)} options={["ALUNO", "COLABORADOR"].map((x) => ({ value: x, label: x }))} />{linkForm.indicador_tipo === "ALUNO" ? <Select label="Aluno" value={linkForm.aluno_id} onChange={(v) => setLinkField("aluno_id", v)} options={alunos.map((a) => ({ value: a.id, label: a.nome }))} /> : <Select label="Colaborador" value={linkForm.colaborador_id} onChange={(v) => setLinkField("colaborador_id", v)} options={colaboradores.map((c) => ({ value: c.id, label: c.nome }))} />}</div><button type="submit">Gerar link</button>{linkGerado && <div className="info-box"><strong>Link:</strong><input value={linkGerado} readOnly onFocus={(e) => e.target.select()} /></div>}</SectionCard></form>
     </div>
     <SectionCard title="Campanhas"><DataTable rows={campanhas} columns={[{key:"nome", label:"Nome"},{key:"slug", label:"Slug"},{key:"status", label:"Status"},{key:"sem_fim", label:"Sem fim", render:(r)=>r.sem_fim ? "Sim" : "Não"},{key:"fim", label:"Fim"}]} /></SectionCard>
-    <SectionCard title="Todas as indicações"><DataTable rows={indicacoes} columns={[{key:"indicado_nome", label:"Indicado"},{key:"origem", label:"Origem"},{key:"indicador_tipo", label:"Tipo"},{key:"indicador_nome", label:"Indicador"},{key:"status", label:"Status"},{key:"recompensa_valor", label:"Recompensa", render:(r)=>`R$ ${Number(r.recompensa_valor||0).toFixed(2)}`}]} /></SectionCard>
+    <SectionCard title="Todas as indicações"><DataTable rows={indicacoes} columns={[{key:"indicado_nome", label:"Indicado"},{key:"origem", label:"Origem"},{key:"campanha_nome", label:"Campanha"},{key:"indicador_tipo", label:"Tipo"},{key:"indicador_nome", label:"Indicador"},{key:"status", label:"Status"},{key:"recompensa_valor", label:"Recompensa", render:(r)=>`R$ ${Number(r.recompensa_valor||0).toFixed(2)}`}]} /></SectionCard>
   </section>;
 }
 
