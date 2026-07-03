@@ -18,14 +18,10 @@ export default function Dashboard() {
       ]);
       setData(dashboardResp);
       setFiliais(filiaisResp);
-    } catch (err) {
-      setError(err.message);
-    }
+    } catch (err) { setError(err.message); }
   }
 
-  function setFilter(field, value) {
-    setFilters((old) => ({ ...old, [field]: value }));
-  }
+  function setFilter(field, value) { setFilters((old) => ({ ...old, [field]: value })); }
 
   useEffect(() => { load(); }, []);
 
@@ -33,44 +29,53 @@ export default function Dashboard() {
   if (!data) return <div>Carregando dashboard...</div>;
 
   return (
-    <section>
-      <div className="page-title">
-        <h1>Dashboard</h1>
-        <p>Resumo com filtros por filial e período.</p>
-      </div>
+    <section className="flow-dashboard">
+      <div className="page-title row"><div><h1>Dashboard FlowGym</h1><p>Visão geral organizada por alunos, financeiro, planos e indicações.</p></div></div>
 
-      <div className="toolbar dashboard-filters">
+      <div className="toolbar dashboard-filters flow-filters">
         <select value={filters.filial_id} onChange={(e) => setFilter("filial_id", e.target.value)}>
           <option value="">Todas as filiais</option>
           {filiais.map((filial) => <option key={filial.id} value={filial.id}>{filial.nome}</option>)}
         </select>
         <input type="date" value={filters.inicio} onChange={(e) => setFilter("inicio", e.target.value)} />
         <input type="date" value={filters.fim} onChange={(e) => setFilter("fim", e.target.value)} />
-        <button className="ghost" onClick={load}>Aplicar filtros</button>
+        <button onClick={load}>Aplicar filtros</button>
       </div>
 
-      <div className="cards">
-        <Card label="Total de alunos" value={data.total_alunos} />
-        <Card label="Cadastrados no período" value={data.alunos_cadastrados_periodo} />
-        <Card label="Ativos com plano OK" value={data.alunos_ativos_com_plano} />
-        <Card label="Valor em aberto" value={`R$ ${Number(data.valor_em_aberto || 0).toFixed(2)}`} />
-        <PermissionGate permission="dashboard.card_alunos_ativos"><Card label="Alunos ativos" value={data.alunos_ativos} /></PermissionGate>
-        <PermissionGate permission="dashboard.card_alunos_inativos"><Card label="Alunos inativos" value={data.alunos_inativos} /></PermissionGate>
-        <PermissionGate permission="dashboard.card_financeiro"><Card label="Cobranças abertas" value={data.cobrancas_abertas} /><Card label="Cobranças atrasadas" value={data.cobrancas_atrasadas} /></PermissionGate>
+      <div className="dashboard-section">
+        <h2>Indicadores principais</h2>
+        <div className="kpi-grid">
+          <Card label="Total de alunos" value={data.total_alunos} />
+          <Card label="Cadastrados no período" value={data.alunos_cadastrados_periodo} />
+          <Card label="Ativos com plano OK" value={data.alunos_ativos_com_plano} />
+          <Card label="Valor em aberto" value={`R$ ${Number(data.valor_em_aberto || 0).toFixed(2)}`} highlight />
+        </div>
       </div>
 
-      <div className="grid-two dashboard-grid">
-        <ChartCard title="Gênero dos alunos" rows={(data.genero || []).map((item) => ({ label: item.sexo, value: item.quantidade, percent: item.percentual }))} suffix="%" />
-        <ChartCard title="Top 5 planos vendidos" rows={(data.top_planos || []).map((item) => ({ label: item.nome, value: item.quantidade }))} />
-        <ChartCard title="Indicações por status" rows={Object.entries(data.indicacoes_por_status || {}).map(([label, value]) => ({ label, value }))} />
-        <div className="table-card chart-card"><h2>Indicações feitas</h2><strong className="big-number">{data.indicacoes_total || 0}</strong><p>Total de indicações manuais e por campanha/link no período filtrado.</p></div>
+      <div className="dashboard-section">
+        <h2>Operação e financeiro</h2>
+        <div className="kpi-grid compact">
+          <PermissionGate permission="dashboard.card_alunos_ativos"><Card label="Alunos ativos" value={data.alunos_ativos} /></PermissionGate>
+          <PermissionGate permission="dashboard.card_alunos_inativos"><Card label="Alunos inativos" value={data.alunos_inativos} /></PermissionGate>
+          <PermissionGate permission="dashboard.card_financeiro"><Card label="Cobranças abertas" value={data.cobrancas_abertas} /><Card label="Cobranças atrasadas" value={data.cobrancas_atrasadas} /></PermissionGate>
+        </div>
+      </div>
+
+      <div className="dashboard-section">
+        <h2>Análises</h2>
+        <div className="analytics-grid">
+          <ChartCard title="Gênero dos alunos" rows={(data.genero || []).map((item) => ({ label: item.sexo, value: item.quantidade, percent: item.percentual }))} suffix="%" />
+          <ChartCard title="Top 5 planos vendidos" rows={(data.top_planos || []).map((item) => ({ label: item.nome, value: item.quantidade }))} />
+          <ChartCard title="Indicações por status" rows={Object.entries(data.indicacoes_por_status || {}).map(([label, value]) => ({ label, value }))} />
+          <div className="table-card chart-card accent-card"><h2>Indicações feitas</h2><strong className="big-number">{data.indicacoes_total || 0}</strong><p>Total de indicações manuais e por campanha/link no período filtrado.</p></div>
+        </div>
       </div>
     </section>
   );
 }
 
-function Card({ label, value }) {
-  return <div className="card"><span>{label}</span><strong>{value ?? 0}</strong></div>;
+function Card({ label, value, highlight = false }) {
+  return <div className={highlight ? "flow-card highlight" : "flow-card"}><span>{label}</span><strong>{value ?? 0}</strong></div>;
 }
 
 function ChartCard({ title, rows, suffix = "" }) {
