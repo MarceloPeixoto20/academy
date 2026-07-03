@@ -16,6 +16,8 @@
 .exercise-row { border: 1px solid #e5e7eb; background: #f9fafb; border-radius: 16px; padding: 14px; }
 .exercise-row .small-button { margin-top: 12px; }
 .table-card { overflow-x: auto; }
+.table-search { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.table-search input { max-width: 360px; }
 
 .brand-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 18px; }
 .sidebar-toggle { padding: 6px 10px; border-radius: 10px; background: #1f2937; color: white; }
@@ -25,23 +27,42 @@
 .sidebar-group-title { width: 100%; display: flex; justify-content: space-between; align-items: center; background: transparent; color: #9ca3af; padding: 8px 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
 .sidebar-group-title:hover { background: #1f2937; color: white; }
 
-.schedule-grid { display: grid; grid-template-columns: repeat(7, minmax(180px, 1fr)); gap: 12px; margin-top: 18px; overflow-x: auto; }
-.schedule-day { min-width: 180px; background: white; border-radius: 16px; border: 1px solid #e5e7eb; padding: 12px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05); }
-.schedule-day h3 { margin: 0 0 10px; font-size: 14px; }
-.schedule-card { border: 1px solid #e5e7eb; background: #f9fafb; border-radius: 12px; padding: 10px; margin-bottom: 8px; }
-.schedule-card strong, .schedule-card span, .schedule-card small { display: block; }
-.schedule-card small { color: #6b7280; margin-top: 4px; }
-
 .kanban-board { display: grid; grid-template-columns: repeat(6, minmax(220px, 1fr)); gap: 12px; margin: 18px 0; overflow-x: auto; }
 .kanban-column { min-width: 220px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 16px; padding: 12px; }
 .kanban-column h3 { margin: 0 0 12px; display: flex; justify-content: space-between; align-items: center; }
-.kanban-card { background: white; border: 1px solid #e5e7eb; border-radius: 14px; padding: 12px; margin-bottom: 10px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04); }
+.kanban-card { background: white; border: 1px solid #e5e7eb; border-radius: 14px; padding: 12px; margin-bottom: 10px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04); cursor: grab; }
 .kanban-card strong, .kanban-card span, .kanban-card small { display: block; margin-bottom: 6px; }
 .kanban-card small { color: #6b7280; }
 .kanban-card select { width: 100%; margin-top: 8px; }
 .crm-cards { margin-bottom: 18px; }
+.row-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
-@media (max-width: 900px) {
-  .schedule-grid, .kanban-board { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
-  .sidebar-collapsed .sidebar { display: none; }
-}
+.calendar-grid { display: grid; grid-template-columns: 80px repeat(7, minmax(170px, 1fr)); border: 1px solid #e5e7eb; border-radius: 16px; overflow: auto; background: white; }
+.calendar-corner, .calendar-head, .calendar-time { background: #f3f4f6; font-weight: 700; padding: 10px; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 1; }
+.calendar-time { position: sticky; left: 0; z-index: 2; }
+.calendar-cell { min-height: 96px; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; padding: 8px; background: #fff; }
+.calendar-cell:hover { background: #f9fafb; }
+.calendar-event { background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; padding: 8px; margin-bottom: 6px; }
+.calendar-event strong, .calendar-event span, .calendar-event small { display: block; }
+.calendar-event small { color: #4b5563; }
+
+.modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, .55); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.modal-card { background: white; border-radius: 18px; width: min(720px, 96vw); max-height: 90vh; overflow: auto; padding: 18px; }
+.large-modal { width: min(1120px, 96vw); }
+
+.dashboard-filters { margin-bottom: 18px; }
+.dashboard-grid { align-items: start; }
+.chart-card h2 { margin-top: 0; }
+.bar-row { margin: 12px 0; }
+.bar-header { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.bar-track { height: 10px; background: #e5e7eb; border-radius: 999px; overflow: hidden; }
+.bar-fill { height: 100%; background: #111827; border-radius: 999px; }
+.big-number { display: block; font-size: 42px; margin: 12px 0; }
+
+.public-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #f3f4f6; padding: 24px; }
+.public-card { width: min(480px, 96vw); background: white; border: 1px solid #e5e7eb; border-radius: 20px; padding: 24px; box-shadow: 0 20px 60px rgba(15, 23, 42, .12); }
+.public-card label { display: block; margin-bottom: 14px; }
+.public-card input, .public-card textarea { width: 100%; }
+.info-box input { width: 100%; margin-top: 8px; }
+
+@media (max-width: 900px) { .kanban-board { grid-template-columns: repeat(2, minmax(220px, 1fr)); } .sidebar-collapsed .sidebar { display: none; } .calendar-grid { grid-template-columns: 70px repeat(7, minmax(150px, 1fr)); } }

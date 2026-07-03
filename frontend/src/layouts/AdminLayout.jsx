@@ -12,7 +12,7 @@ export default function AdminLayout() {
   const groups = useMemo(() => [
     { key: "geral", label: "Geral", links: [["dashboard.visualizar", "/", LayoutDashboard, "Dashboard"]] },
     { key: "academia", label: "Academia", links: [["filiais.visualizar", "/filiais", Building2, "Filiais"], ["alunos.visualizar", "/alunos", Users, "Alunos"], ["treinadores.visualizar", "/treinadores", Activity, "Treinadores"], ["treinos.visualizar", "/treinos", Dumbbell, "Treinos"], ["exercicios.visualizar", "/exercicios", ClipboardList, "Exercícios"], ["planos.visualizar", "/planos", ClipboardList, "Planos"]] },
-    { key: "operacional", label: "Operacional", links: [["operacional.visualizar", "/colaboradores", UserRound, "Colaboradores"], ["operacional.visualizar", "/horarios-funcionamento", Building2, "Funcionamento"], ["operacional.visualizar", "/modalidades", Dumbbell, "Modalidades"], ["operacional.visualizar", "/grade-modalidades", ClipboardList, "Grade"], ["operacional.visualizar", "/indicacoes", Users, "Indicações"]] },
+    { key: "operacional", label: "Operacional", links: [["operacional.visualizar", "/colaboradores", UserRound, "Colaboradores"], ["operacional.visualizar", "/horarios-funcionamento", Building2, "Funcionamento"], ["operacional.visualizar", "/modalidades", Dumbbell, "Modalidades"], ["operacional.visualizar", "/grade-modalidades", ClipboardList, "Grade"], ["operacional.visualizar", "/indicacoes", Users, "Indicações"], ["configuracoes.bloqueio", "/automacoes", Settings, "Automações"]] },
     { key: "comercial", label: "Comercial", links: [["crm.visualizar", "/crm", Activity, "CRM"]] },
     { key: "financeiro", label: "Financeiro", links: [["financeiro.visualizar", "/financeiro", Wallet, "Financeiro"]] },
     { key: "admin", label: "Administração", links: [["usuarios.visualizar", "/usuarios", UserRound, "Usuários"], ["grupos.visualizar", "/grupos", Shield, "Grupos"], ["configuracoes.visualizar", "/configuracoes", Settings, "Configurações"], ["logs.visualizar", "/logs", Shield, "Logs"]] },
@@ -34,21 +34,8 @@ export default function AdminLayout() {
 
   return (
     <div className={sidebarOpen ? "shell" : "shell sidebar-collapsed"}>
-      <aside className="sidebar">
-        <div className="brand-row">
-          <div className="brand">{sidebarOpen ? "Academia Admin" : "AA"}</div>
-          <button className="sidebar-toggle" onClick={toggleSidebar}>{sidebarOpen ? "‹" : "›"}</button>
-        </div>
-        {sidebarOpen && <nav>{groups.map((group) => <div className="sidebar-group" key={group.key}><button className="sidebar-group-title" onClick={() => toggleGroup(group.key)}>{group.label}<span>{closedGroups[group.key] ? "+" : "−"}</span></button>{!closedGroups[group.key] && group.links.map(([permission, to, Icon, label]) => <PermissionGate key={to} permission={permission}><NavLink to={to} end={to === "/"}><Icon size={18} /> {label}</NavLink></PermissionGate>)}</div>)}</nav>}
-      </aside>
-
-      <main className="main">
-        <header className="topbar">
-          <div><strong>{user?.nome}</strong><span>{user?.grupo} • {user?.filiais?.length ? `${user.filiais.length} filial(is)` : "Todas as filiais"}</span></div>
-          <button className="ghost" onClick={logout}><LogOut size={16} /> Sair</button>
-        </header>
-        <Outlet />
-      </main>
+      <aside className="sidebar"><div className="brand-row"><div className="brand">{sidebarOpen ? "Academia Admin" : "AA"}</div><button className="sidebar-toggle" onClick={toggleSidebar}>{sidebarOpen ? "‹" : "›"}</button></div>{sidebarOpen && <nav>{groups.map((group) => <div className="sidebar-group" key={group.key}><button className="sidebar-group-title" onClick={() => toggleGroup(group.key)}>{group.label}<span>{closedGroups[group.key] ? "+" : "−"}</span></button>{!closedGroups[group.key] && group.links.map(([permission, to, Icon, label]) => <PermissionGate key={to} permission={permission}><NavLink to={to} end={to === "/"}><Icon size={18} /> {label}</NavLink></PermissionGate>)}</div>)}</nav>}</aside>
+      <main className="main"><header className="topbar"><div><strong>{user?.nome}</strong><span>{user?.grupo} • {user?.filiais?.length ? `${user.filiais.length} filial(is)` : "Todas as filiais"}</span></div><button className="ghost" onClick={logout}><LogOut size={16} /> Sair</button></header><Outlet /></main>
     </div>
   );
 }
