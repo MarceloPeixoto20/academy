@@ -12,6 +12,9 @@ import Logs from "./pages/Logs";
 import CrudPage from "./pages/CrudPage";
 import Treinadores from "./pages/Treinadores";
 import Treinos from "./pages/Treinos";
+import OperacionalPage from "./pages/OperacionalPage";
+import ModalidadesGrade from "./pages/ModalidadesGrade";
+import CRM from "./pages/CRM";
 
 const crudConfigs = {
   filiais: {
@@ -79,7 +82,6 @@ export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-
       <Route path="/" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
         <Route index element={<Dashboard />} />
         <Route path="alunos" element={<Alunos />} />
@@ -90,11 +92,14 @@ export default function App() {
         <Route path="logs" element={<Logs />} />
         <Route path="treinadores" element={<Treinadores />} />
         <Route path="treinos" element={<Treinos />} />
-        {Object.entries(crudConfigs).map(([path, config]) => (
-          <Route key={path} path={path} element={<CrudPage config={config} />} />
-        ))}
+        <Route path="colaboradores" element={<OperacionalPage type="colaboradores" />} />
+        <Route path="horarios-funcionamento" element={<OperacionalPage type="horarios" />} />
+        <Route path="modalidades" element={<OperacionalPage type="modalidades" />} />
+        <Route path="grade-modalidades" element={<ModalidadesGrade />} />
+        <Route path="indicacoes" element={<OperacionalPage type="indicacoes" />} />
+        <Route path="crm" element={<CRM />} />
+        {Object.entries(crudConfigs).map(([path, config]) => <Route key={path} path={path} element={<CrudPage config={config} />} />)}
       </Route>
-
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
