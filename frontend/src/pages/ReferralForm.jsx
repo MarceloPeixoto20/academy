@@ -14,7 +14,7 @@ export default function ReferralForm() {
     e.preventDefault();
     try {
       setError("");
-      await api(`/academy/public/indicacoes/${campanhaId}/${token}`, { method: "POST", body: JSON.stringify(form) });
+      await api(`/academy/public/referrals/public/indicacoes/${campanhaId}/${token}`, { method: "POST", body: JSON.stringify(form) });
       setSent(true);
     } catch (err) { setError(err.message); }
   }
