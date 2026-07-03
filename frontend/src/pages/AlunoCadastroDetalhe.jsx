@@ -21,6 +21,8 @@ export default function AlunoCadastroDetalhe() {
   const [aluno, setAluno] = useState(emptyAluno);
   const [filiais, setFiliais] = useState([]);
   const [planos, setPlanos] = useState([]);
+  const [campanhasIndicacao, setCampanhasIndicacao] = useState([]);
+  const [campanhaIndicacaoId, setCampanhaIndicacaoId] = useState("");
   const [planoAtivo, setPlanoAtivo] = useState(null);
   const [cobrancas, setCobrancas] = useState([]);
   const [medidas, setMedidas] = useState([]);
@@ -33,8 +35,15 @@ export default function AlunoCadastroDetalhe() {
     { key: "financeiro", label: "Plano/Financeiro", disabled: isNovo },
     { key: "treinos", label: "Treinos", disabled: isNovo },
     { key: "medidas", label: "Medidas", disabled: isNovo },
+    { key: "indicacao", label: "Indicação", disabled: isNovo },
     { key: "entradas", label: "Entradas", disabled: isNovo },
   ], [isNovo]);
+
+  const campanhaIndicacao = useMemo(() => campanhasIndicacao.find((campanha) => campanha.id === campanhaIndicacaoId) || campanhasIndicacao.find((campanha) => campanha.status === "ATIVA") || campanhasIndicacao[0], [campanhasIndicacao, campanhaIndicacaoId]);
+  const linkIndicacao = useMemo(() => {
+    if (isNovo || !campanhaIndicacao || !aluno?.id) return "";
+    return `${window.location.origin}/indicar/${campanhaIndicacao.id}/ALUNO:${aluno.id}:${campanhaIndicacao.id}`;
+  }, [aluno?.id, campanhaIndicacao, isNovo]);
 
   function setAlunoField(field, value) {
     setAluno((old) => ({ ...old, [field]: value }));
@@ -45,12 +54,15 @@ export default function AlunoCadastroDetalhe() {
   }
 
   async function loadBase() {
-    const [filiaisResp, planosResp] = await Promise.all([
+    const [filiaisResp, planosResp, campanhasResp] = await Promise.all([
       api("/filiais/"),
       api("/planos/"),
+      api("/academy/indicacoes/campanhas"),
     ]);
     setFiliais(filiaisResp);
     setPlanos(planosResp);
+    setCampanhasIndicacao(campanhasResp);
+    if (!campanhaIndicacaoId && campanhasResp.length) setCampanhaIndicacaoId(campanhasResp.find((campanha) => campanha.status === "ATIVA")?.id || campanhasResp[0].id);
   }
 
   async function loadAluno() {
@@ -290,6 +302,8 @@ export default function AlunoCadastroDetalhe() {
           <DataTable rows={medidas} columns={[{ key: "data_avaliacao", label: "Data" }, { key: "peso_kg", label: "Peso" }, { key: "altura_cm", label: "Altura" }, { key: "imc", label: "IMC" }, { key: "cintura_cm", label: "Cintura" }, { key: "percentual_gordura", label: "% gordura" }, { key: "massa_muscular_kg", label: "Massa muscular" }]} />
         </div>
       )}
+
+      {activeTab === "indicacao" && !isNovo && <SectionCard title="Link de indicação do aluno" description="Compartilhe esse link com o aluno para ele indicar amigos. O link é automático por campanha.">{campanhasIndicacao.length === 0 ? <div className="empty-state">Nenhuma campanha de indicação cadastrada. Crie uma campanha na tela de Indicações.</div> : <div className="student-grid two"><Select label="Campanha" value={campanhaIndicacao?.id || ""} onChange={setCampanhaIndicacaoId} options={campanhasIndicacao.map((campanha) => ({ value: campanha.id, label: `${campanha.nome} - ${campanha.status}` }))} /><label className="span-2"><span>Link do aluno</span><input value={linkIndicacao} readOnly onFocus={(e) => e.target.select()} /></label><div className="info-box span-2"><strong>Como funciona:</strong> esse link identifica automaticamente o aluno como indicador. Toda pessoa que preencher o formulário pelo link entra na tabela geral de indicações.</div></div>}</SectionCard>}
 
       {activeTab === "entradas" && !isNovo && <SectionCard title="Entradas" description="Aba reservada para controle de entrada/check-in do aluno."><div className="empty-state">Nenhum controle de entrada implementado ainda.</div></SectionCard>}
     </section>
