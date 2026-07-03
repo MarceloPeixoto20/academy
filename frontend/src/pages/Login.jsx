@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../state/AuthContext";
+import flowGymLogo from "../assets/flowgym-logo.svg";
 
 export default function Login() {
   const { login } = useAuth();
@@ -21,10 +22,11 @@ export default function Login() {
   }
 
   return (
-    <div className="login-page">
+    <div className="login-page flowgym-login">
       <form className="login-card" onSubmit={handleSubmit}>
-        <h1>Academia Admin</h1>
-        <p>Acesse o painel administrativo</p>
+        <img className="login-logo" src={flowGymLogo} alt="FlowGym" />
+        <h1>FlowGym</h1>
+        <p>Acesse o painel administrativo da academia</p>
 
         {error && <div className="alert">{error}</div>}
 
