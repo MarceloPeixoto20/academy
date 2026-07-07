@@ -1,2 +1,28 @@
+[project]
+name = "academy-backend"
+version = "0.1.0"
+description = "Backend Flask do sistema Academy"
+requires-python = ">=3.12"
+
+dependencies = [
+    "Flask>=3.0.0",
+    "flask-cors>=4.0.0",
+    "Flask-SQLAlchemy>=3.1.1",
+    "Flask-JWT-Extended>=4.6.0",
+    "python-dotenv>=1.0.0",
+    "requests>=2.31.0",
+    "Werkzeug>=3.0.0",
+    "gunicorn>=21.2.0",
+
+    # Banco MySQL
+    "PyMySQL>=1.1.0",
+
+    # Se o projeto usa senhas com bcrypt
+    "bcrypt>=4.1.0",
+
+    # Se usa validação/data
+    "python-dateutil>=2.9.0"
+]
+
 [tool.vercel]
 entrypoint = "run:app"
