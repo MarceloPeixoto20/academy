@@ -14,13 +14,16 @@ dependencies = [
     "Werkzeug>=3.0.0",
     "gunicorn>=21.2.0",
 
-    # Banco MySQL
+    # Banco PostgreSQL
+    "psycopg2-binary>=2.9.9",
+
+    # Banco MySQL, deixe somente se ainda usa MySQL em algum ambiente
     "PyMySQL>=1.1.0",
 
-    # Se o projeto usa senhas com bcrypt
+    # Segurança/senhas
     "bcrypt>=4.1.0",
 
-    # Se usa validação/data
+    # Datas
     "python-dateutil>=2.9.0"
 ]
 
