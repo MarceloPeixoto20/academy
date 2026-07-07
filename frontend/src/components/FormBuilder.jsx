@@ -1,3 +1,5 @@
+import MaskedInput from "./MaskedInput";
+
 export default function FormBuilder({ fields, form, setForm }) {
   function setValue(name, value) {
     setForm((old) => ({ ...old, [name]: value }));
@@ -18,7 +20,7 @@ export default function FormBuilder({ fields, form, setForm }) {
           ) : f.type === "checkbox" ? (
             <input type="checkbox" checked={Boolean(form[f.name])} onChange={(e) => setValue(f.name, e.target.checked)} />
           ) : (
-            <input type={f.type || "text"} value={form[f.name] ?? ""} onChange={(e) => setValue(f.name, e.target.value)} />
+            <MaskedInput name={f.name} label={null} type={f.type || "text"} value={form[f.name]} onChange={(value) => setValue(f.name, value)} />
           )}
         </label>
       ))}

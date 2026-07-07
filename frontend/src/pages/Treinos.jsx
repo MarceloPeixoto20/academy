@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../api/client";
 import DataTable from "../components/DataTable";
+import MaskedInput from "../components/MaskedInput";
 import PermissionGate from "../components/PermissionGate";
 import SearchableSelect from "../components/SearchableSelect";
 import SectionCard from "../components/SectionCard";
@@ -188,7 +189,7 @@ export default function Treinos() {
 }
 
 function Input({ label, value, onChange, type = "text", required = false, className = "", placeholder = "" }) {
-  return <label className={className}><span>{label}</span><input required={required} type={type} placeholder={placeholder} value={value ?? ""} onChange={(e) => onChange(e.target.value)} /></label>;
+  return <MaskedInput name={label} label={label} value={value} onChange={onChange} type={type} required={required} className={className} placeholder={placeholder} />;
 }
 
 function Select({ label, value, onChange, options, className = "", required = false }) {

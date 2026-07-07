@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../api/client";
 import DataTable from "../components/DataTable";
+import MaskedInput from "../components/MaskedInput";
 import PermissionGate from "../components/PermissionGate";
 import SectionCard from "../components/SectionCard";
 import AlunoTreinosTab from "./AlunoTreinosTab";
@@ -311,7 +312,7 @@ export default function AlunoCadastroDetalhe() {
 }
 
 function Input({ label, value, onChange, type = "text", required = false, className = "" }) {
-  return <label className={className}><span>{label}</span><input required={required} type={type} value={value ?? ""} onChange={(e) => onChange(e.target.value)} /></label>;
+  return <MaskedInput name={label} label={label} value={value} onChange={onChange} type={type} required={required} className={className} />;
 }
 
 function Select({ label, value, onChange, options, className = "", required = false }) {

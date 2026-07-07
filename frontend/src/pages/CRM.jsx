@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../api/client";
 import DataTable from "../components/DataTable";
+import MaskedInput from "../components/MaskedInput";
 import SectionCard from "../components/SectionCard";
 
 const camposObrigatorios = ["telefone", "email", "valor_previsto", "proximo_contato", "perda_motivo"];
@@ -101,5 +102,5 @@ export default function CRM() {
   );
 }
 
-function Input({ label, value, onChange, type = "text", required = false }) { return <label><span>{label}</span><input required={required} type={type} value={value ?? ""} onChange={(e) => onChange(e.target.value)} /></label>; }
+function Input({ label, value, onChange, type = "text", required = false }) { return <MaskedInput name={label} label={label} value={value} onChange={onChange} type={type} required={required} />; }
 function Select({ label, value, onChange, options }) { return <label><span>{label}</span><select value={value ?? ""} onChange={(e) => onChange(e.target.value)}><option value="">Selecione</option>{options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}</select></label>; }

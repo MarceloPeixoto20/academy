@@ -65,7 +65,7 @@ VALUES
 ('crm.configurar','crm','configurar','Configurar etapas e regras do CRM',false),
 ('indicacoes.campanhas','indicacoes','campanhas','Criar campanhas e links de indicação',false),
 ('financeiro.lotes','financeiro','lotes','Gerenciar lotes de cobranças',false),
-('configuracoes.bloqueio','configuracoes','bloqueio','Configurar bloqueio automático de inadimplentes e balança',false)
+('configuracoes.bloqueio','configuracoes','bloqueio','Aplicar bloqueio de inadimplentes',false)
 ON CONFLICT (codigo) DO NOTHING;
 
 INSERT INTO crm_etapas (empresa_id, nome, codigo, ordem, probabilidade_padrao, campos_obrigatorios)

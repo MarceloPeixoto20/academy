@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../api/client";
+import MaskedInput from "../components/MaskedInput";
 import SectionCard from "../components/SectionCard";
 
 const dias = ["SEGUNDA", "TERCA", "QUARTA", "QUINTA", "SEXTA", "SABADO", "DOMINGO"];
@@ -57,5 +58,5 @@ function CalendarRow({ hora, grouped, openModal }) {
   return <><div className="calendar-time">{hora}</div>{dias.map((dia) => { const events = (grouped[dia] || []).filter((item) => String(item.hora_inicio || "").startsWith(hora.slice(0, 2))); return <div className="calendar-cell" key={`${dia}-${hora}`} onDoubleClick={() => openModal(dia, hora)}>{events.map((item) => <div className="calendar-event" key={item.id}><strong>{item.hora_inicio} - {item.hora_fim}</strong><span>{item.modalidade_nome}</span><small>{item.colaborador_nome || "Sem colaborador"}</small></div>)}</div>; })}</>;
 }
 
-function Input({ label, value, onChange, type = "text", required = false }) { return <label><span>{label}</span><input required={required} type={type} value={value ?? ""} onChange={(e) => onChange(e.target.value)} /></label>; }
+function Input({ label, value, onChange, type = "text", required = false }) { return <MaskedInput name={label} label={label} value={value} onChange={onChange} type={type} required={required} />; }
 function Select({ label, value, onChange, options, required = false }) { return <label><span>{label}</span><select required={required} value={value ?? ""} onChange={(e) => onChange(e.target.value)}><option value="">Selecione</option>{options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}</select></label>; }

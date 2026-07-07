@@ -35,6 +35,7 @@ No painel do Supabase, abra o SQL Editor e execute:
 ```txt
 database/schema.sql
 database/seed_permissions.sql
+database/migrations/*.sql
 ```
 
 ### 2. Backend

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import { LayoutDashboard, Users, Dumbbell, Wallet, Settings, Shield, LogOut, UserRound, Building2, Activity, ClipboardList } from "lucide-react";
+import { LayoutDashboard, Users, Dumbbell, Wallet, Settings, Shield, LogOut, UserRound, Building2, Activity, ClipboardList, Plug } from "lucide-react";
 import { useAuth } from "../state/AuthContext";
 import PermissionGate from "../components/PermissionGate";
 import flowGymLogo from "../assets/flowgym-logo.svg";
@@ -16,7 +16,7 @@ export default function AdminLayout() {
     { key: "operacional", label: "Operacional", links: [["operacional.visualizar", "/colaboradores", UserRound, "Colaboradores"], ["operacional.visualizar", "/horarios-funcionamento", Building2, "Funcionamento"], ["operacional.visualizar", "/modalidades", Dumbbell, "Modalidades"], ["operacional.visualizar", "/grade-modalidades", ClipboardList, "Grade"], ["operacional.visualizar", "/indicacoes", Users, "Indicações"]] },
     { key: "comercial", label: "Comercial", links: [["crm.visualizar", "/crm", Activity, "CRM"]] },
     { key: "financeiro", label: "Financeiro", links: [["financeiro.visualizar", "/financeiro", Wallet, "Financeiro"]] },
-    { key: "admin", label: "Administração", links: [["usuarios.visualizar", "/usuarios", UserRound, "Usuários"], ["grupos.visualizar", "/grupos", Shield, "Grupos"], ["configuracoes.visualizar", "/configuracoes", Settings, "Configurações"], ["configuracoes.bloqueio", "/automacoes", Settings, "Automações"], ["logs.visualizar", "/logs", Shield, "Logs"]] },
+    { key: "admin", label: "Administração", links: [["usuarios.visualizar", "/usuarios", UserRound, "Usuários"], ["grupos.visualizar", "/grupos", Shield, "Grupos"], ["configuracoes.visualizar", "/configuracoes", Settings, "Configurações"], ["integracoes.visualizar", "/integracoes", Plug, "Integrações"], ["logs.visualizar", "/logs", Shield, "Logs"]] },
   ], []);
 
   function toggleSidebar() {

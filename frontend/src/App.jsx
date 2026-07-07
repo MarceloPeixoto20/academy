@@ -17,13 +17,13 @@ import ModalidadesGrade from "./pages/ModalidadesGrade";
 import CRM from "./pages/CRM";
 import Indicacoes from "./pages/Indicacoes";
 import ReferralForm from "./pages/ReferralForm";
-import AutomacoesAcademia from "./pages/AutomacoesAcademia";
+import Configuracoes from "./pages/Configuracoes";
+import Integracoes from "./pages/Integracoes";
 
 const crudConfigs = {
   filiais: { title: "Filiais", endpoint: "/filiais/", createPermission: "filiais.criar", editPermission: "filiais.editar", initial: { status: "ATIVA" }, fields: [{ name: "nome", label: "Nome" }, { name: "cnpj", label: "CNPJ" }, { name: "telefone", label: "Telefone" }, { name: "email", label: "Email" }, { name: "cep", label: "CEP" }, { name: "endereco", label: "Endereço" }, { name: "numero", label: "Número" }, { name: "complemento", label: "Complemento" }, { name: "bairro", label: "Bairro" }, { name: "cidade", label: "Cidade" }, { name: "uf", label: "UF" }, { name: "status", label: "Status", type: "select", options: [{value:"ATIVA",label:"ATIVA"},{value:"INATIVA",label:"INATIVA"}] }], columns: ["nome","cidade","uf","status"] },
   planos: { title: "Planos", endpoint: "/planos/", createPermission: "planos.criar", editPermission: "planos.editar", initial: { status: "ATIVO", duracao_meses: 1, multa_atraso_ativa: false }, fields: [{ name: "nome", label: "Nome" }, { name: "descricao", label: "Descrição" }, { name: "valor_mensal", label: "Valor mensal", type: "number" }, { name: "duracao_meses", label: "Duração em meses", type: "number" }, { name: "multa_atraso_ativa", label: "Multa ativa", type: "checkbox" }, { name: "percentual_multa", label: "% Multa", type: "number" }, { name: "juros_dia", label: "Juros ao dia", type: "number" }, { name: "status", label: "Status", type: "select", options: [{value:"ATIVO",label:"ATIVO"},{value:"INATIVO",label:"INATIVO"}] }], columns: ["nome","valor_mensal","duracao_meses","status"] },
-  exercicios: { title: "Exercícios", endpoint: "/exercicios/", createPermission: "exercicios.criar", editPermission: "exercicios.editar", initial: { status: "ATIVO" }, fields: [{ name: "nome", label: "Nome" }, { name: "descricao", label: "Descrição", type: "textarea" }, { name: "equipamento", label: "Equipamento" }, { name: "video_url", label: "URL do vídeo" }, { name: "status", label: "Status", type: "select", options: [{value:"ATIVO",label:"ATIVO"},{value:"INATIVO",label:"INATIVO"}] }], columns: ["nome","equipamento","status"] },
-  configuracoes: { title: "Configurações", endpoint: "/configuracoes/", createPermission: "configuracoes.editar", editPermission: "configuracoes.editar", upsertOnly: true, fields: [{ name: "chave", label: "Chave" }, { name: "valor", label: "Valor" }, { name: "tipo", label: "Tipo", type: "select", options: [{value:"texto",label:"texto"},{value:"numero",label:"numero"},{value:"booleano",label:"booleano"},{value:"json",label:"json"},{value:"data",label:"data"}] }, { name: "descricao", label: "Descrição" }], columns: ["chave","valor","tipo","descricao"] }
+  exercicios: { title: "Exercícios", endpoint: "/exercicios/", createPermission: "exercicios.criar", editPermission: "exercicios.editar", initial: { status: "ATIVO" }, fields: [{ name: "nome", label: "Nome" }, { name: "descricao", label: "Descrição", type: "textarea" }, { name: "equipamento", label: "Equipamento" }, { name: "video_url", label: "URL do vídeo" }, { name: "status", label: "Status", type: "select", options: [{value:"ATIVO",label:"ATIVO"},{value:"INATIVO",label:"INATIVO"}] }], columns: ["nome","equipamento","status"] }
 };
 
 export default function App() {
@@ -46,7 +46,9 @@ export default function App() {
         <Route path="modalidades" element={<OperacionalPage type="modalidades" />} />
         <Route path="grade-modalidades" element={<ModalidadesGrade />} />
         <Route path="indicacoes" element={<Indicacoes />} />
-        <Route path="automacoes" element={<AutomacoesAcademia />} />
+        <Route path="configuracoes" element={<Configuracoes />} />
+        <Route path="integracoes" element={<Integracoes />} />
+        <Route path="automacoes" element={<Navigate to="/integracoes" replace />} />
         <Route path="crm" element={<CRM />} />
         {Object.entries(crudConfigs).map(([path, config]) => <Route key={path} path={path} element={<CrudPage config={config} />} />)}
       </Route>

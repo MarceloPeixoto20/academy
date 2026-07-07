@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../api/client";
 import DataTable from "../components/DataTable";
+import MaskedInput from "../components/MaskedInput";
 import PermissionGate from "../components/PermissionGate";
 import SectionCard from "../components/SectionCard";
 
@@ -132,7 +133,6 @@ export default function OperacionalPage({ type }) {
 }
 
 function Field({ name, label, kind, value, required, setField, filiais, alunos, colaboradores }) {
-  const common = { required, value: value ?? "", onChange: (e) => setField(name, e.target.type === "checkbox" ? e.target.checked : e.target.value) };
   if (kind === "textarea") return <label className="span-2"><span>{label}</span><textarea value={value || ""} onChange={(e) => setField(name, e.target.value)} /></label>;
   if (kind === "checkbox") return <label><span>{label}</span><input type="checkbox" checked={Boolean(value)} onChange={(e) => setField(name, e.target.checked)} /></label>;
   if (kind === "filial") return <Select label={label} value={value} required={required} onChange={(v) => setField(name, v)} options={filiais.map((f) => ({ value: f.id, label: f.nome }))} />;
@@ -140,7 +140,7 @@ function Field({ name, label, kind, value, required, setField, filiais, alunos, 
   if (kind === "colaborador") return <Select label={label} value={value} onChange={(v) => setField(name, v)} options={colaboradores.map((c) => ({ value: c.id, label: c.nome }))} />;
   if (kind === "dias") return <Select label={label} value={value} onChange={(v) => setField(name, v)} options={dias} />;
   if (kind.startsWith("select:")) return <Select label={label} value={value} onChange={(v) => setField(name, v)} options={kind.replace("select:", "").split(",").map((x) => ({ value: x, label: x }))} />;
-  return <label><span>{label}</span><input type={kind} {...common} /></label>;
+  return <MaskedInput name={name} label={label} type={kind} required={required} value={value} onChange={(v) => setField(name, v)} />;
 }
 
 function Select({ label, value, onChange, options, required = false }) {

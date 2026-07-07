@@ -53,5 +53,8 @@ VALUES
 
 ('configuracoes.visualizar','configuracoes','visualizar','Visualizar configurações',false),
 ('configuracoes.editar','configuracoes','editar','Editar configurações',false),
+('configuracoes.bloqueio','configuracoes','bloqueio','Aplicar bloqueio de inadimplentes',false),
+('integracoes.visualizar','integracoes','visualizar','Visualizar integrações',false),
+('integracoes.editar','integracoes','editar','Editar integrações',false),
 ('logs.visualizar','logs','visualizar','Visualizar logs de auditoria',false)
 ON CONFLICT (codigo) DO NOTHING;

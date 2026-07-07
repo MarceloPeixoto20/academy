@@ -74,14 +74,80 @@ class CobrancaLote(db.Model):
 
 CRM_FIELDS = ["nome", "codigo", "ordem", "cor", "probabilidade_padrao", "campos_obrigatorios", "status"]
 CAMPANHA_FIELDS = ["filial_id", "nome", "descricao", "slug", "recompensa_aluno_tipo", "recompensa_aluno_valor", "recompensa_colaborador_tipo", "recompensa_colaborador_valor", "inicio", "fim", "sem_fim", "status"]
-CONFIG_DEFAULTS = {
+BUSINESS_CONFIG_DEFAULTS = {
     "inadimplencia.bloqueio_automatico_ativo": "false",
     "inadimplencia.dias_atraso_bloqueio": "10",
+    "inadimplencia.bloquear_acesso_automaticamente": "true",
+    "inadimplencia.desbloquear_apos_pagamento": "true",
+    "financeiro.geracao_automatica_faturas_ativa": "false",
+    "financeiro.dia_geracao_faturas": "1",
+    "financeiro.competencia_geracao": "MES_ATUAL",
+    "financeiro.forma_pagamento_padrao": "BOLETO",
+    "financeiro.ignorar_cobrancas_existentes": "true",
+    "financeiro.notificar_aluno_ao_gerar_fatura": "false",
+    "financeiro.dias_alerta_vencimento": "3",
+    "alunos.periodicidade_avaliacao_dias": "30",
+    "treinos.alertar_treino_vencido_dias": "7",
+    "crm.dias_sem_contato_alerta": "3",
+    "indicacoes.exigir_aprovacao_recompensa": "true",
+}
+
+INTEGRATION_CONFIG_DEFAULTS = {
     "balanca.integracao_ativa": "false",
     "balanca.modo": "MANUAL",
     "balanca.endpoint": "",
     "balanca.porta_serial": "",
+    "pagamentos.gateway_ativo": "false",
+    "pagamentos.provedor": "ASAAS",
+    "pagamentos.api_base_url": "",
+    "pagamentos.webhook_ativo": "false",
+    "comunicacao.whatsapp_ativo": "false",
+    "comunicacao.provedor": "MANUAL",
+    "comunicacao.numero_remetente": "",
+    "comunicacao.webhook_url": "",
+    "acesso.integracao_ativa": "false",
+    "acesso.tipo": "MANUAL",
+    "acesso.endpoint": "",
+    "acesso.chave_dispositivo": "",
+    "marketplaces.wellhub_ativo": "false",
+    "marketplaces.totalpass_ativo": "false",
 }
+
+CONFIG_DEFAULTS = {
+    **BUSINESS_CONFIG_DEFAULTS,
+    **INTEGRATION_CONFIG_DEFAULTS,
+}
+
+CONFIG_TYPES = {
+    key: "booleano"
+    for key in (
+        "inadimplencia.bloqueio_automatico_ativo",
+        "inadimplencia.bloquear_acesso_automaticamente",
+        "inadimplencia.desbloquear_apos_pagamento",
+        "financeiro.geracao_automatica_faturas_ativa",
+        "financeiro.ignorar_cobrancas_existentes",
+        "financeiro.notificar_aluno_ao_gerar_fatura",
+        "indicacoes.exigir_aprovacao_recompensa",
+        "balanca.integracao_ativa",
+        "pagamentos.gateway_ativo",
+        "pagamentos.webhook_ativo",
+        "comunicacao.whatsapp_ativo",
+        "acesso.integracao_ativa",
+        "marketplaces.wellhub_ativo",
+        "marketplaces.totalpass_ativo",
+    )
+}
+CONFIG_TYPES.update({
+    key: "numero"
+    for key in (
+        "inadimplencia.dias_atraso_bloqueio",
+        "financeiro.dia_geracao_faturas",
+        "financeiro.dias_alerta_vencimento",
+        "alunos.periodicidade_avaliacao_dias",
+        "treinos.alertar_treino_vencido_dias",
+        "crm.dias_sem_contato_alerta",
+    )
+})
 
 
 def _decimal(value):
@@ -110,8 +176,9 @@ def _get_config(chave):
 def _set_config(chave, valor):
     item = ConfiguracaoSistema.query.filter_by(empresa_id=g.current_user.empresa_id, chave=chave).first()
     if not item:
-        item = ConfiguracaoSistema(empresa_id=g.current_user.empresa_id, chave=chave, tipo="texto")
+        item = ConfiguracaoSistema(empresa_id=g.current_user.empresa_id, chave=chave, tipo=CONFIG_TYPES.get(chave, "texto"))
         db.session.add(item)
+    item.tipo = CONFIG_TYPES.get(chave, item.tipo or "texto")
     item.valor = str(valor)
     return item
 
@@ -163,6 +230,42 @@ def save_automation_configs():
     return jsonify({key: _get_config(key) for key in CONFIG_DEFAULTS})
 
 
+@academy_ext_bp.get("/configuracoes/negocio")
+@permission_required("configuracoes.visualizar")
+def get_business_configs():
+    return jsonify({key: _get_config(key) for key in BUSINESS_CONFIG_DEFAULTS})
+
+
+@academy_ext_bp.post("/configuracoes/negocio")
+@permission_required("configuracoes.editar")
+def save_business_configs():
+    data = request.get_json() or {}
+    for key in BUSINESS_CONFIG_DEFAULTS:
+        if key in data:
+            _set_config(key, data.get(key))
+    audit_log("UPDATE_BUSINESS_CONFIGS", "configuracoes_sistema", None, None, data)
+    db.session.commit()
+    return jsonify({key: _get_config(key) for key in BUSINESS_CONFIG_DEFAULTS})
+
+
+@academy_ext_bp.get("/integracoes")
+@permission_required("integracoes.visualizar")
+def get_integration_configs():
+    return jsonify({key: _get_config(key) for key in INTEGRATION_CONFIG_DEFAULTS})
+
+
+@academy_ext_bp.post("/integracoes")
+@permission_required("integracoes.editar")
+def save_integration_configs():
+    data = request.get_json() or {}
+    for key in INTEGRATION_CONFIG_DEFAULTS:
+        if key in data:
+            _set_config(key, data.get(key))
+    audit_log("UPDATE_INTEGRATION_CONFIGS", "configuracoes_sistema", None, None, data)
+    db.session.commit()
+    return jsonify({key: _get_config(key) for key in INTEGRATION_CONFIG_DEFAULTS})
+
+
 @academy_ext_bp.post("/inadimplencia/aplicar-bloqueio")
 @permission_required("configuracoes.bloqueio")
 def aplicar_bloqueio_inadimplentes():
@@ -170,6 +273,8 @@ def aplicar_bloqueio_inadimplentes():
     dias = int(_get_config("inadimplencia.dias_atraso_bloqueio") or 10)
     if not ativo:
         return jsonify({"bloqueados": 0, "message": "Bloqueio automático está desativado"})
+    if _get_config("inadimplencia.bloquear_acesso_automaticamente") != "true":
+        return jsonify({"bloqueados": 0, "message": "Bloqueio de acesso está desativado"})
     limite = date.today().toordinal() - dias
     vencimento_limite = date.fromordinal(limite)
     query = apply_filial_scope(Cobranca.query, Cobranca, g.current_user).filter(Cobranca.status.in_(["ABERTO", "ATRASADO"]), Cobranca.vencimento < vencimento_limite)
